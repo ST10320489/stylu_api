@@ -1,18 +1,18 @@
-# Use official .NET runtime for running the app
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+# Use official .NET 7 runtime for running the app
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 8080
 ENV ASPNETCORE_URLS=http://+:8080
 
-# Build stage with SDK
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+# Build stage with .NET 7 SDK
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
-# Copy only the .csproj file and restore dependencies
+# Copy only the .csproj and restore dependencies
 COPY Stylu/Stylu.csproj Stylu/
 RUN dotnet restore "Stylu/Stylu.csproj"
 
-# Copy the rest of the project files and build
+# Copy the rest of the source code and build
 COPY Stylu/ Stylu/
 WORKDIR /src/Stylu
 RUN dotnet publish -c Release -o /app/publish
